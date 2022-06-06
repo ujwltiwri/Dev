@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    display: flex;
+    height: 50vh;
+    width: 60vw;
+    position: absolute;
+    /* to center the div in page */
+    top: calc((100vh - 50vh) / 2);
+    left: calc((100vw - 60vw) / 2);
+}
+
+.modal-container {
+    background-color: rgb(87, 84, 84);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+header {
+    background-color: red;
+    display: flex;
+    /* justify-content: space-between; */
+    height: 4rem;
+    padding: 10px;
+    background-color: gray;
+}
+
+.modal-cont {
+    background-color: rgb(87, 84, 84);
+    padding: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    width: 25%;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.textarea-container{
+    background-color: rgba(174, 179, 190, 0.649);
+    font-size: 2.5rem;
+    border: none;
+    /* outline is what we see after clicking textarea */
+    outline: none;
+    height: 100%;
+    width: 60vw;
+}
