@@ -55,4 +55,6 @@ header {
     outline: none;
     height: 100%;
     width: 60vw;
+    resize: none;
+    padding: 20px;
 }
