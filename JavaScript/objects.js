@@ -34,21 +34,21 @@ for (let i = 0; i < Object.keys(captainAmerica).length; i++) {
 }
 
 //prompt
-// let fruitname = prompt("Enter Any Fruit Name: ");
-// let bag = {
-//   [fruitname]: 10,
-// };
+let fruitname = prompt("Enter Any Fruit Name: ");
+let bag = {
+  [fruitname]: 10,
+};
 /*
 dot natation can't evalue fruitname so it will look for fruitname key in bag object but here fruit name can be anything according to input
 */
-// alert(bag.fruitname);
+alert(bag.fruitname);
 
-// alert(bag.banana); //it will show 10 only if banana will be entered
+alert(bag.banana); //it will show 10 only if banana will be entered
 
 /*
 so we can use bracket notation for evaluating this and can get output for any input
 */
-// alert(bag[fruitname]); //now it will for any input
+alert(bag[fruitname]); //now it will for any input
 
 // Object references and copying
 
