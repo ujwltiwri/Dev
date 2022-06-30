@@ -39,19 +39,21 @@
 // // greet();
 // console.log(greet);
 
-// {
-//   var a = 10;
-//   let b = 100;
-//   const c = 1000;
+{
+  var a = 10;
+  let b = 100;
+  const c = 1000;
 
-//   console.log(a); //10
-//   console.log(b); //100
-//   console.log(c); //1000
-// }
+  console.log(a); //10
+  console.log(b); //100
+  console.log(c); //1000
+}
 
-// console.log(a); //10
-// console.log(b); //not defined -> reference error
-// console.log(c); //not defined -> reference error
+a = 20;
+
+console.log(a); //10
+console.log(b); //not defined -> reference error
+console.log(c); //not defined -> reference error
 
 // function fun() {
 //   if (true) {

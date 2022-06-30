@@ -51,38 +51,25 @@
 // alert(bag[fruitname]); //now it will for any input
 
 // Object references and copying
+/*
+Objects are assigned and copied by reference. In other words, a variable stores not the “object value”, but a “reference” (address in memory) for the value. So copying such a variable or passing it as a function argument copies that reference, not the object itself.
 
-// let user = {
-//   name: "Ujjwal",
-// };
+All operations via copied references (like adding/removing properties) are performed on the same single object.
 
-// let admin = user;
-// admin.name = "Ankish";
-// console.log(admin.name);
+To make a “real copy” (a clone) we can use Object.assign for the so-called “shallow copy” (nested objects are copied by reference) or a “deep cloning” function, such as _.cloneDeep(obj).
+*/
 
-// //Cloning and merging, Object.assign
-// let users = {
-//   name: "John",
-//   age: 30,
-// };
+let user = {
+  name: "Ujjwal",
+  age: 24,
+};
 
-// let clone = {}; // the new empty object
+console.log(user);
 
-// for (key in users) {
-//   clone[key] = users[key];
-// }
+user.height = 5.6;
 
-// for (key in clone) {
-//   console.log("Cloned Object: ", clone[key]);
-// }
+console.log(user);
 
-// //We can also use the method Object.assign.It's Shorthand Property for cloning an object
-// Object.assign(clone, users);
-// for (key in clone) {
-//   console.log("Copied Using Object Assign Method: " + clone[key]);
-// }
-
-let user = { name: "John", age: 30 };
 let clone = {};
 
 for (let key in user) {
@@ -90,5 +77,57 @@ for (let key in user) {
 }
 
 console.log(clone);
-clone.name = "Pete";
-console.log(user.name);
+
+user.address = "himachal pradesh";
+console.log(user);
+console.log(clone); //value of clone didn't change even if value of user object change, becuase clone is stored at new location now
+
+Object.assign(clone, user, { isUjjwal: true });
+console.log(clone);
+
+user.nick = "carry";
+console.log(user);
+console.log(clone);
+
+//nested object cloning
+let someone = {
+  name: "John",
+  size: {
+    height: 182,
+    width: 50,
+  },
+};
+
+console.log(someone);
+
+console.log(someone.size.height);
+
+let newclone = {};
+Object.assign(newclone, someone);
+console.log(newclone);
+console.log(someone.size.height === newclone.size.height); //true, but expected output was false because we have made a clone and memory of these two obj is different
+/*
+although here we have cloned someone to newclone, and these are stored at diff memory location
+but we have not cloned size obj inside someone obj, instead refernce of size from someone is copied into size in newclone obj
+this is the limitation of nested cloning of objects
+
+To fix that and make user and clone truly separate objects, we should use a cloning loop that examines each value of user[key] and, if it’s an object, then replicate its structure as well. That is called a “deep cloning”.
+
+We can use recursion to implement it. Or, to not reinvent the wheel, take an existing implementation, for instance _.cloneDeep(obj) from the JavaScript library lodash.
+*/
+
+// Const objects can be modified
+// An important side effect of storing objects as references is that an object declared as const can be modified.
+
+const user = {
+  name: "John",
+};
+
+user.name = "Pete"; // (*)
+
+alert(user.name); // Pete
+// It might seem that the line (*) would cause an error, but it does not. The value of user is constant, it must always reference the same object, but properties of that object are free to change.
+
+// In other words, the const user gives an error only if we try to set user=... as a whole.
+
+// That said, if we really need to make constant object properties, it’s also possible, but using totally different methods. We’ll mention that in the chapter Property flags and descriptors.
