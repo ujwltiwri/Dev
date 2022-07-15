@@ -80,16 +80,13 @@ console.log(calculator(arr, diagnol));
 //   return {logic};
 // }
 
-var areaofSquareArr = arr.map((num) => {
+// var areaofSquareArr = arr.map((num) => {
+//   return num * num;
+// });
+
+var areaofSquareArr = arr.map(function (num) {
   return num * num;
 });
-
-//normal method
-// const newArr = arr.map(myFunction);
-
-// function myFunction(num) {
-//   return num * 10;
-// }
 
 // var areaOfSquareArr = arr.map(function(num){
 //   return num * num;
@@ -97,5 +94,5 @@ var areaofSquareArr = arr.map((num) => {
 // 1) each element of arr is traversed, it is available in cb function's parameter .
 // 2) we peform some action on that element
 // 3) on writing return result is pushed inside an array
-// console.log("Arr.Map Ex");
-// console.log(areaofSquareArr);
+console.log("Arr.Map Ex");
+console.log(areaofSquareArr);
