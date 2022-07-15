@@ -96,6 +96,6 @@ var areaofSquareArr = arr.map((num) => {
 // });
 // 1) each element of arr is traversed, it is available in cb function's parameter .
 // 2) we peform some action on that element
-// 3) on writing return res is pushed inside an array
+// 3) on writing return result is pushed inside an array
 // console.log("Arr.Map Ex");
 // console.log(areaofSquareArr);
