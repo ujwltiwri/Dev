@@ -53,6 +53,11 @@ function diagnol(side) {
 }
 
 function calculator(arr, logic) {
+  /*
+   * Here calculator is a Higher Order Function because it took logic(which is a function) as argument
+   * Here Logic is a Callback Function -> because it is passed as an argument to another function
+   * which is in this case calculator
+   */
   /* here logic function is passed as an argument -> logic is a callback function */
   let res = [];
 
@@ -68,3 +73,29 @@ console.log(calculator(arr, perimeter));
 console.log(calculator(arr, diagnol));
 
 // here the code is less because we used functional programming
+
+// hof functions
+// 1-> Map
+// // Syntax -> arr.map(function()){
+//   return {logic};
+// }
+
+var areaofSquareArr = arr.map((num) => {
+  return num * num;
+});
+
+//normal method
+// const newArr = arr.map(myFunction);
+
+// function myFunction(num) {
+//   return num * 10;
+// }
+
+// var areaOfSquareArr = arr.map(function(num){
+//   return num * num;
+// });
+// 1) each element of arr is traversed, it is available in cb function's parameter .
+// 2) we peform some action on that element
+// 3) on writing return res is pushed inside an array
+// console.log("Arr.Map Ex");
+// console.log(areaofSquareArr);
