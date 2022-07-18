@@ -58,3 +58,16 @@ header {
     resize: none;
     padding: 20px;
 }
+
+.name {
+    border: 5px solid red;
+    height: 400px;
+    width: 400px;
+    padding: 10px;
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+    border: 2px solid black;
+}
