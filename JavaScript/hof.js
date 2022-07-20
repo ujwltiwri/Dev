@@ -1,84 +1,84 @@
-// var arr = [2, 5, 7, 12];
+var arr = [2, 5, 7, 12];
 
-// function areaofSquare(arr) {
-//   let res = [];
+function areaofSquare(arr) {
+  let res = [];
 
-//   for (let i = 0; i < arr.length; i++) {
-//     res.push(arr[i] * arr[i]);
-//   }
+  for (let i = 0; i < arr.length; i++) {
+    res.push(arr[i] * arr[i]);
+  }
 
-//   return res;
+  return res;
+}
+
+function permieterofSquare(arr) {
+  let res = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    res.push(arr[i] * 4);
+  }
+
+  return res;
+}
+
+function diagnolOfSquare(arr) {
+  let res = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    res.push(Math.sqrt(2) * arr[i]);
+  }
+
+  return res;
+}
+
+// console.log(areaofSquare(arr));
+// console.log(permieterofSquare(arr));
+// console.log(diagnolOfSquare(arr));
+
+/*
+ * The Problem in this method is that we have to do the same task repetitively and that is not needed
+ * because only logic of calculation is chaning here and other code is same.
+ * So here we can use -> Functional Programming
+ */
+
+function area(side) {
+  return side * side;
+}
+
+function perimeter(side) {
+  return side * 4;
+}
+
+function diagnol(side) {
+  return Math.sqrt(2) * side;
+}
+
+function calculator(arr, logic) {
+  /*
+   * Here calculator is a Higher Order Function because it took logic(which is a function) as argument
+   * Here Logic is a Callback Function -> because it is passed as an argument to another function
+   * which is in this case calculator
+   */
+  /* here logic function is passed as an argument -> logic is a callback function */
+  let res = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    res.push(logic(arr[i]));
+  }
+
+  return res;
+}
+
+console.log(calculator(arr, area));
+console.log(calculator(arr, perimeter));
+console.log(calculator(arr, diagnol));
+
+// here the code is less because we used functional programming
+
+// hof functions
+// 1-> Map
+// // Syntax -> arr.map(function()){
+//   return {logic};
 // }
-
-// function permieterofSquare(arr) {
-//   let res = [];
-
-//   for (let i = 0; i < arr.length; i++) {
-//     res.push(arr[i] * 4);
-//   }
-
-//   return res;
-// }
-
-// function diagnolOfSquare(arr) {
-//   let res = [];
-
-//   for (let i = 0; i < arr.length; i++) {
-//     res.push(Math.sqrt(2) * arr[i]);
-//   }
-
-//   return res;
-// }
-
-// // console.log(areaofSquare(arr));
-// // console.log(permieterofSquare(arr));
-// // console.log(diagnolOfSquare(arr));
-
-// /*
-//  * The Problem in this method is that we have to do the same task repetitively and that is not needed
-//  * because only logic of calculation is chaning here and other code is same.
-//  * So here we can use -> Functional Programming
-//  */
-
-// function area(side) {
-//   return side * side;
-// }
-
-// function perimeter(side) {
-//   return side * 4;
-// }
-
-// function diagnol(side) {
-//   return Math.sqrt(2) * side;
-// }
-
-// function calculator(arr, logic) {
-//   /*
-//    * Here calculator is a Higher Order Function because it took logic(which is a function) as argument
-//    * Here Logic is a Callback Function -> because it is passed as an argument to another function
-//    * which is in this case calculator
-//    */
-//   /* here logic function is passed as an argument -> logic is a callback function */
-//   let res = [];
-
-//   for (let i = 0; i < arr.length; i++) {
-//     res.push(logic(arr[i]));
-//   }
-
-//   return res;
-// }
-
-// console.log(calculator(arr, area));
-// console.log(calculator(arr, perimeter));
-// console.log(calculator(arr, diagnol));
-
-// // here the code is less because we used functional programming
-
-// // hof functions
-// // 1-> Map
-// // // Syntax -> arr.map(function()){
-// //   return {logic};
-// // }
 
 var arr = [2, 5, 7, 12];
 
@@ -161,95 +161,95 @@ Array.prototype.myFilter = function (greaterThan4) {
 var ans = arr.myFilter(greaterThan4);
 console.log(ans);
 
-//arr.reduce
-// var arr = [10, -5, 6, 28, 56, 12, 456];
+3rd Array Method -> arr.reduce
+var arr = [10, -5, 6, 28, 56, 12, 456];
 
-// function largestval(acc, current) {
-//   if (current > acc) {
-//     acc = current;
-//   }
-//   return acc;
-// }
+function largestval(acc, current) {
+  if (current > acc) {
+    acc = current;
+  }
+  return acc;
+}
 
-// let answer = arr.reduce(largestval);
-// console.log(answer);
+let answer = arr.reduce(largestval);
+console.log(answer);
 
-// var arr = [10, -5, 6, 28, 56, 12, 456];
+var arr = [10, -5, 6, 28, 56, 12, 456];
 
-// let largestval = (acc, current) => {
-//   if (current > acc) {
-//     acc = current;
-//   }
-//   return acc;
-// };
+let largestval = (acc, current) => {
+  if (current > acc) {
+    acc = current;
+  }
+  return acc;
+};
 
-// let answer = arr.reduce(largestval);
-// console.log(answer);
+let answer = arr.reduce(largestval);
+console.log(answer);
 
-// const worldCapitals = [
-//   {
-//     country: "India",
-//     capital: "Delhi",
-//     population: "2cr",
-//   },
-//   {
-//     country: "America",
-//     capital: "Washington DC",
-//     population: "6cr",
-//   },
-//   {
-//     country: "France",
-//     capital: "Paris",
-//     population: "2cr",
-//   },
+const worldCapitals = [
+  {
+    country: "India",
+    capital: "Delhi",
+    population: "2cr",
+  },
+  {
+    country: "America",
+    capital: "Washington DC",
+    population: "6cr",
+  },
+  {
+    country: "France",
+    capital: "Paris",
+    population: "2cr",
+  },
 
-//   {
-//     country: "England",
-//     capital: "London",
-//     population: "4cr",
-//   },
-//   {
-//     country: "Germany",
-//     capital: "Berlin",
-//     population: "2cr",
-//   },
-// ];
+  {
+    country: "England",
+    capital: "London",
+    population: "4cr",
+  },
+  {
+    country: "Germany",
+    capital: "Berlin",
+    population: "2cr",
+  },
+];
 
-// //Q1 print country name and their capital
-// // [ India->Delhi, America->WashingtonDC, France->Paris , England->London, Germany->Berlin]
+//Q1 print country name and their capital
+// [ India->Delhi, America->WashingtonDC, France->Paris , England->London, Germany->Berlin]
 
-// let countryCapital = (obj) => {
-//   return obj.country + "->" + obj.capital;
-// };
+let countryCapital = (obj) => {
+  return obj.country + "->" + obj.capital;
+};
 
-// var ans = worldCapitals.map(countryCapital);
-// console.log(ans);
+var ans = worldCapitals.map(countryCapital);
+console.log(ans);
 
-// //Q2-> Return the number of countries with a particular population
-// //{ 2cr: 3, 4cr: 1, 6cr: 1 }
+//Q2-> Return the number of countries with a particular population
+//{ 2cr: 3, 4cr: 1, 6cr: 1 }
 
-// let getPopulation = (obj, current) => {
-//   if (obj[current.population]) {
-//     obj[current.population] = obj[current.population] + 1;
-//   } else {
-//     obj[current.population] = 1;
-//   }
+let getPopulation = (obj, current) => {
+  if (obj[current.population]) {
+    obj[current.population] = obj[current.population] + 1;
+  } else {
+    obj[current.population] = 1;
+  }
 
-//   return obj;
-// };
+  return obj;
+};
 
-// var ans = worldCapitals.reduce(getPopulation, {});
-// console.log(ans);
+var ans = worldCapitals.reduce(getPopulation, {});
+console.log(ans);
 
-// //Q3 get country name with population less than 5cr
-// //[India, France,England,Germany]
+//Q3 get country name with population less than 5cr
+//[India, France,England,Germany]
 
-// function populationLessThan5cr(arr, obj) {
-//   if (obj.population < "5cr") {
-//     arr.push(obj.country);
-//   }
-//   return arr;
-// }
+function populationLessThan5cr(arr, obj) {
+  if (obj.population < "5cr") {
+    arr.push(obj.country);
+  }
+  return arr;
+}
 
-// var ans = worldCapitals.reduce(populationLessThan5cr, []);
-// console.log(ans);
+var ans = worldCapitals.reduce(populationLessThan5cr, []);
+console.log(ans);
