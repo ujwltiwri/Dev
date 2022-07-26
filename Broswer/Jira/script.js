@@ -1,54 +1,71 @@
+const uid = new ShortUniqueId();
+
 const addBtn = document.querySelector(".add-btn");
 const modalCont = document.querySelector(".modal-cont");
 const colors = ["lightpink", "lightgreen", "lightblue", "black"];
-let modalPriorityColor = colors[colors.length - 1]; // black by default
+let ticketColor = colors[colors.length - 1];
 const textArea = document.querySelector(".textarea-cont");
 const mainCont = document.querySelector(".main-cont");
+const allPriorityColors = document.querySelectorAll(".priority-color");
 
-var isModalPresent = false;
+let isModalPresent = false;
 
-addBtn.addEventListener("click", function () {
-  //case 1 -> if modal is not present
-  // then display the modal
+addBtn.addEventListener("click", () => {
+  //1st case -> if modal is not present
   if (!isModalPresent) {
-    //display modal
+    //show the modal
     modalCont.style.display = "flex";
+    //hide ticket Container
+    mainCont.style.display = "none";
   } else if (isModalPresent) {
-    //hide modal
     modalCont.style.display = "none";
   }
 
-  isModalPresent = !isModalPresent; //to change the state of modal from true to false
-  // and from false to true
+  isModalPresent = !isModalPresent;
 });
 
-//checking shift click from keyboard for writing data in modal
-modalCont.addEventListener("keydown", function (e) {
-  if (e.key == "Shift") {
-    //will execute when shift is pressed
-    console.log(textArea.value);
-    // 1-> Call createTicket Function
-    createTicket(modalPriorityColor, textArea.value);
+//2nd work to be done is to make tickets
 
-    //2 Alter display and update isModalPresent
+modalCont.addEventListener("keydown", (keyPress) => {
+  if (keyPress.key == "Shift") {
+    //1 call createTicket()
+    createTicket(ticketColor, textArea.value);
+
+    //2nd -> alter display and update isModalPresent
     modalCont.style.display = "none";
-    isModalPresent = false;
+    isModalPresent = !isModalPresent;
+    //3rd empty the textarea
     textArea.value = "";
+
+    //4th display ticket container
+    mainCont.style.display = "flex";
   }
 });
 
 function createTicket(ticketColor, data) {
-  let id = "helloid";
+  let id = uid();
 
   let ticketCont = document.createElement("div");
   ticketCont.setAttribute("class", "ticket-cont");
   ticketCont.innerHTML = `
-    <div class = "ticket-color ${ticketColor}"></div>
-    <div class = "ticket-id">#${id}</div>
-    <div class = "task-area">${data}</div>
-    <div class = "ticket-lock">
-        <i class="fa-solid fa-lock"></i>
-    </div>
-  `;
+        <div class ="ticket-color ${ticketColor}"></div>
+        <div class ="ticket-id">${id}</div>
+        <div class ="task-area">${data}</div>
+        <div class="ticket-lock">
+            <i class ="fa-solid fa-lock"></i>
+        </div>
+    `;
+
   mainCont.appendChild(ticketCont);
 }
+
+//choose Priority Color
+allPriorityColors.forEach((colorElement) => {
+  colorElement.addEventListener("click", function () {
+    allPriorityColors.forEach((el) => {
+      el.classList.remove("active");
+    });
+    colorElement.classList.add("active");
+    ticketColor = colorElement.classList[0];
+  });
+});
