@@ -15,21 +15,21 @@
 // // ************************************************************************************************************
 
 // // Q2
-// function type2() {
-//   console.log(this.lname);
-// }
+function type2() {
+  console.log(lname);
+}
 
-// var lname = "Tiwari";
+// var lname = "T iwari";
 
-// var obj = {
-//   lname: "Singh",
-//   type2,
+var obj = {
+  lname: "Singh",
+  type2,
 
-//   /*this is how the code in real sense is put here -> type2: function(){
-//         console.log(this.name);
-//     } */
-// };
-// obj.type2();
+  /*this is how the code in real sense is put here -> type2: function(){
+        console.log(this.name);
+    } */
+};
+obj.type2();
 
 // // Q3
 // var food = "Pizza";
@@ -58,3 +58,14 @@ var obj = {
 };
 
 obj.square();
+
+// var user = {
+//   firstName: "John",
+//   sayHi() {
+//     console.log(`Hello, ${this.firstName}!`);
+//   },
+// };
+
+// setTimeout(function () {
+//   user.sayHi(); // Hello, John!
+// }, 1000);

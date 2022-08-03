@@ -86,3 +86,5 @@ console.log(gd);
 // now we will have to catch the func in a var first
 let print = gd(5);
 console.log(gd);
+
+

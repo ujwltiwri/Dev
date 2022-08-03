@@ -123,6 +123,8 @@ body {
     height: 2rem;
     background-color: red;
     padding: .4rem;
+    color: white;
+    font-style: italic;
 }
 
 .task-area {
