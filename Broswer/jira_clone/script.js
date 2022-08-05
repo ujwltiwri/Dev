@@ -6,7 +6,9 @@ const mainCont = document.querySelector(".main-cont")
 const colors = ["lightpink", "lightgreen", "lightblue", "black"];
 let ticketColor = colors[colors.length - 1]; //i.e initially black is our TicketColor
 let ticketsArr = [];
-const allPriorityColors = document.querySelectorAll(".priority-color")
+const allPriorityColors = document.querySelectorAll(".priority-color");
+const toolBoxColors = document.querySelectorAll(".toolbox-color-cont > *");
+const removeBtn = document.querySelector(".remove-btn");
 //main variables end here
 
 // 1. to toggle modal
@@ -81,3 +83,37 @@ allPriorityColors.forEach(colorelement =>
         ticketColor = colorelement.classList[0];
     })
 );
+
+//geting tickets on the basis of ticketColor
+for(let i = 0; i < toolBoxColors.length; i++){
+    // A) Display Filtered Tickets on Single Click
+    toolBoxColors[i].addEventListener("click", function (){
+        let currColor = toolBoxColors[i].classList[0];
+        let filteredTicketsArr = ticketsArr.filter(ele => ele.ticketColor == currColor);
+
+        // 1 -> Remove All Tickets From UI
+        let alltickets = document.querySelectorAll(".ticket-cont");
+        alltickets.forEach(tickets => tickets.remove());
+
+        //2 -> Show Filtered Tickets in UI
+        filteredTicketsArr.forEach(ticketObj => createTicket(ticketObj.ticketColor, ticketObj.ticketTask, ticketObj.ticketId));
+    })
+
+    // B) Display All Tickets on Double Click
+    toolBoxColors[i].addEventListener("dblclick", () => {
+        ticketsArr.forEach(ticketObj => createTicket(ticketObj.ticketColor, ticketObj.ticketTask, ticketObj.ticketId));
+    })
+}
+
+//toggling the remove btn
+isRemoveBtnActive = false;
+removeBtn.addEventListener("click", () => {
+    if(!isRemoveBtnActive){
+        removeBtn.style.color = "red";
+    } else {
+        removeBtn.style.color = "white";
+    }
+
+    isRemoveBtnActive = !isRemoveBtnActive;
+})
+
