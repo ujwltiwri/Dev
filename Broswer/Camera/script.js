@@ -23,3 +23,5 @@ recordBtnCont.addEventListener("click", () => {
 
   isRecording = !isRecording;
 });
+
+console.log("Hello");
