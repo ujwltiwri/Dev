@@ -68,6 +68,14 @@ video {
     background-blend-mode: color-burn;
 }
 
+.filter-layer{
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .brown {
     background-color: #ffa50052;
 }
