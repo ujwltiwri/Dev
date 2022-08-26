@@ -28,6 +28,7 @@ video {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    z-index: 1;
 }
 
 .action-cont>* {
@@ -53,27 +54,34 @@ video {
     border-radius: 50%;
 }
 
-.filter-cont{
+.timer-cont {
+    position: absolute;
+    bottom: 10rem;
+    left: 3rem;
+    color: white;
+    z-index: 1;
+}
+
+.timer {
+    display: none
+}
+
+.filter-cont {
+    position: absolute;
     height: 16rem;
     width: 5rem;
-    position: absolute;
-    top: calc((100vh - 12rem) / 2);
+    top: calc((100vh - 12rem)/2);
     left: 3rem;
+    background-color: aquamarine;
+    z-index: 1;
 }
 
-.filter{
+.filter {
     height: 4rem;
-    background-image: url("https://picsum.photos/seed/picsum/200/300");
+    background-image: url(https://picsum.photos/seed/picsum/200/300);
+    /* background-position: center; */
     background-size: 100% 100%;
     background-blend-mode: color-burn;
-}
-
-.filter-layer{
-    height: 100vh;
-    width: 100vw;
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 .brown {
@@ -92,41 +100,46 @@ video {
     background-color: transparent;
 }
 
-.timer-cont{
+.filter-layer {
+    height: 100vh;
+    width: 100vw;
+    /* background-color: #ffa50052; */
+    position: absolute;
+    top: 0;
+    left: 0;
+
+}
+
+.material-icons {
+    color: white;
+    font-size: 3rem;
+}
+
+.gallery {
     position: absolute;
     bottom: 10rem;
-    color: white;
-    left: 3rem;
+    right: 5.25rem;
+    z-index: 1;
 }
 
-.timer{
-    display: none;
-}
-
-.material-icons{
-    color: white;
-    font-size: 3rem !important;
-}
-
-.gallery{
-    position: absolute;
-    bottom: 10rem;
-    right: 6rem;
+.gallery:hover {
     cursor: pointer;
 }
 
-.scale-capture{
+
+.scale-capture {
     animation-name: scale-capture;
+    /* animation-iteration-count: 1; */
     animation-duration: 1s;
 }
 
 @keyframes scale-capture {
-    0%{
+    0% {
         transform: scale(0.8);
     }
 
-    100%{
-        transform: scale(1.2);
+    100% {
+        transform: scale(1.1);
     }
 }
 
@@ -141,7 +154,11 @@ video {
         transform: scale(0.8);
     }
 
-    100% {
+    50% {
         transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
     }
 }

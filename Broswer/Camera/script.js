@@ -1,69 +1,83 @@
-let recordBtn = document.querySelector(".record-btn");
+var uid = new ShortUniqueId();
 let recordBtnCont = document.querySelector(".record-btn-cont");
-let captureBtn = document.querySelector(".capture-btn");
+let recordBtn = document.querySelector(".record-btn");
 let captureBtnCont = document.querySelector(".capture-btn-cont");
-let timerCont = document.querySelector(".timer-cont");
+let captureBtn = document.querySelector(".capture-btn");
 let timer = document.querySelector(".timer");
-let video = document.querySelector("video");
-let filterColor = "transparent";
-//main logic for recorder
+let gallery = document.querySelector(".gallery");
+/**************************************** Recording Part Start ****************************************/
+//start recording after clicking on record button
 let mediaRecorder;
-let chunks = [];
-let constraints = {
+const constraints = {
   audio: true,
-  video: false,
+  video: true,
 };
 
+const chunks = [];
+
 navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+  const video = document.querySelector("video");
   video.srcObject = stream;
+
   mediaRecorder = new MediaRecorder(stream);
 
   mediaRecorder.addEventListener("start", () => {
-    console.log("recording started");
+    // console.log("rec started");
+    chunks = [];
   });
 
-  mediaRecorder.addEventListener("ondataavailable", (event) => {
-    chunks.push(event.data); //pushing available blob into chunks array
+  mediaRecorder.addEventListener("dataavailable", (event) => {
+    chunks.push(event.data); //single blob of video created and pushed into chunks array
   });
 
   mediaRecorder.addEventListener("stop", () => {
+    let blob = new Blob(chunks, { type: "Video/mp4" });
+    let videoURL = URL.createObjectURL(blob); //url of blob file will be created
+    console.log(videoURL);
     console.log("rec stopped");
 
-    let blob = new Blob(chunks, { type: "video/mp4" });
-    let videoURL = URL.createObjectURL(blob);
-    console.log(videoURL);
+    //if we are connected to db -> Only Then This Code Will Be Executed
+    if (db) {
+      let videoId = uid();
+      let dbTransaction = db.transaction("video", "readwrite");
+      let videoStore = dbTransaction.objectStore("video");
+      let videoEntry = {
+        id: videoId,
+        blobData: blob,
+      };
+      let addRequest = videoStore.add(videoEntry);
 
-    let a = document.createElement("a");
-    a.href = videoURL;
-    a.download = "myVideo.mp4";
-    a.click();
+      addRequest.onsuccess = () => {
+        console.log("Video Added To The VideoStore", addRequest.result);
+      };
+    }
   });
 });
 
-//recording button
+//record button
 let isRecording = false;
 recordBtnCont.addEventListener("click", () => {
   if (!isRecording) {
-    //we have to start recording
-    mediaRecorder.start();
+    //start recording
     startTimer();
     recordBtn.classList.add("scale-record");
-    timer.style.display = "block";
+    mediaRecorder.start();
+    // timer.style.display = "block";
   } else {
-    //we have to stop the recording
-    mediaRecorder.stop();
+    //stop recording
     stopTimer();
     recordBtn.classList.remove("scale-record");
-    timer.style.display = "none";
+    mediaRecorder.stop();
   }
 
   isRecording = !isRecording;
 });
 
+//make timer
 let counter = 0;
 let timerId;
 
-let startTimer = () => {
+function startTimer() {
   timer.style.display = "block";
   function displayTimer() {
     let totalSeconds = counter;
@@ -80,53 +94,85 @@ let startTimer = () => {
     minutes = minutes < 10 ? `0${minutes}` : minutes;
     seconds = seconds < 10 ? `0${seconds}` : seconds;
 
-    timer.innerHTML = `${hours} : ${minutes} : ${seconds}`;
+    timer.innerHTML = `${hours}:${minutes}:${seconds}`;
 
     counter++;
   }
 
   timerId = setInterval(displayTimer, 1000);
-};
+}
 
 function stopTimer() {
   clearInterval(timerId);
-  timer.innerHTML = "00:00:00";
+  timer.innerText = "00:00:00";
   timer.style.display = "none";
 }
+/**************************************** Recording Part End ****************************************/
 
-//capture button
-captureBtnCont.addEventListener("click", function () {
+/**************************************** Capturing Part Start ****************************************/
+
+captureBtnCont.addEventListener("click", () => {
+  const video = document.querySelector("video");
   captureBtn.classList.add("scale-capture");
-  //canvas
   let canvas = document.createElement("canvas");
-  let context = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d");
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
-  context.drawImage(video, 0, 0, canvas.width, canvas.height);
-  //for filters
-  context.fillStyle = filterColor;
-  context.fillRect = (0, 0, canvas.width, canvas.height);
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  let image = canvas.toDataURL("image/jpeg");
+  //applying filter on images
+  ctx.fillStyle = filterColor;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  let a = document.createElement("a");
-  a.href = image;
-  a.download = "myPic.jpeg";
-  a.click();
+  let imageUrl = canvas.toDataURL("image/jpeg"); //Returns the content of the current canvas as an image that you can use as a source for another canvas or an HTML element.
+  console.log("Photo Clicked");
 
+  // //download image
+  // let a = document.createElement("a");
+  // a.href = image;
+  // a.download = "myImage.jpeg";
+  // a.click();
+
+  if (db) {
+    let imageId = uid();
+    let dbTransaction = db.transaction("image", "readwrite");
+    let imageStore = dbTransaction.objectStore("image");
+    let imageEntry = {
+      id: `img-${imageId}`,
+      url: imageUrl,
+    };
+
+    let addRequest = imageStore.add(imageEntry);
+    addRequest.onsuccess = () => {
+      console.log("Image Entry Added to The Image Store", addRequest.result);
+    };
+  }
+
+  //to make capture button active for next time
   setTimeout(function () {
-    captureBtn.classList.remove(".scale-capture");
+    captureBtn.classList.remove("scale-capture");
   }, 1000);
 });
 
+//filter image
 let allFilters = document.querySelectorAll(".filter"); //selects every filter class
 let filterLayer = document.querySelector(".filter-layer");
+let filterColor = "transparent";
+
 allFilters.forEach((filteredEle) => {
   filteredEle.addEventListener("click", () => {
-    //getting css of selected filtered color
+    //get css from the filtered ele
     filterColor = window
       .getComputedStyle(filteredEle)
       .getPropertyValue("background-color");
+
+    //set background color of canvas acc to the filtercolor
     filterLayer.style.backgroundColor = filterColor;
   });
+});
+
+/**************************************** Capturing Part End ****************************************/
+
+gallery.addEventListener("click", () => {
+  location.assign("./gallery.html");
 });
