@@ -69,3 +69,4 @@ obj.square();
 // setTimeout(function () {
 //   user.sayHi(); // Hello, John!
 // }, 1000);
+
