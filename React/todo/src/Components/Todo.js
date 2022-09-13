@@ -12,7 +12,7 @@ export default class Todo extends Component {
         "Jalu",
         "fjsdklfjhklsdgfkhsdfjkghjdkfhgkj",
       ],
-      currTask: "",
+      currTask: "", //curr task
     };
   }
 
