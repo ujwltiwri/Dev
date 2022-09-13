@@ -33,12 +33,12 @@
                 <React.Fragment>
                     <MyH1 />
                     <MyH2 />
-                    <WelcomeMsg name="Ujjwal Tiwari" place="Himachal Pradesh" />
+                    <WelcomeMsg name="Ujjwal Tiwari" place="Himachal Pradesh" /*name and place are arguments here in an object -> i.e. WelcomeMsg is receiving argument in form of Object*/ />
                 </React.Fragment >
             )
         }
 
-        function WelcomeMsg({name, place}) {
+        function WelcomeMsg({name, place} /* Object From WelcomeMsg is destructured*/) {
             return( //jsx starts
                 <h1>Hello {name} from {place}</h1>
             )

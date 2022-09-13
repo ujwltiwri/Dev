@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Counter</title>
+    <!-- react cdn links -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- babel cdn link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.19.0/babel.js"></script>
+    <style>
+        #root{
+            display: flex;
+            width: 20%;
+            justify-content: space-between;
+            margin-left: 35em;
+            align-items: center;
+        }
+
+        button{
+            height: 3rem;
+            width: 4rem;
+            font-size: 20px;
+            font-style: bold;
+            background-color: lightgreen;
+            border: 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        class Counter extends React.Component{
+            constructor() {
+                super();
+                this.state = {
+                    //state is an object that's why we put count in state like an object -> in form of key-value pair
+                    count: 0
+                }
+            }
+
+            /* Imp -> Because We're using A Class That's Why -> Even if we wanna access a function/method in the class we need to use this keyword */
+
+            handleIncrement = () => {
+                this.setState({
+                    //setState() Method enqueues changes to the component state and tells React that this component and its children need to be re-rendered with the updated state. This is the primary method you use to update the user interface in response to event handlers and server responses.
+                    count: this.state.count + 1,
+                })
+            }
+
+            handleDecrement = () => {
+                this.setState({
+                    count: this.state.count > 0 ? this.state.count - 1 : this.state.count,
+                })
+            }
+
+           render(){
+                return(
+                    <React.Fragment>
+                        <button onClick={this.handleIncrement /* Because We're using A Class That's Why -> Even if we wanna access a function/method in the class we need to use this keyword */ }>+</button>
+                        <h1>{this.state.count}</h1>
+                        <button onClick={this.handleDecrement}>-</button>
+                    </React.Fragment>
+                )
+           }
+        }
+
+        const root = ReactDOM.createRoot(document.querySelector("#root"));
+        root.render(<Counter />)
+    </script>
+</body>
+</html>
