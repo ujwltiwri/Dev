@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Basics</title>
+    <!-- react cdn links -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- babel cdn link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.19.0/babel.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        //jsx
+        function MyH1() {
+            return(
+                <h1>Hello</h1>
+            )
+        }
+
+        function MyH2(){
+            return( //jsx starts
+                <h2>Hii</h2>
+            )
+        }
+
+        function Parent() {
+            return( //jsx starts
+                <React.Fragment>
+                    <MyH1 />
+                    <MyH2 />
+                    <WelcomeMsg name="Ujjwal Tiwari" place="Himachal Pradesh" />
+                </React.Fragment >
+            )
+        }
+
+        function WelcomeMsg({name, place}) {
+            return( //jsx starts
+                <h1>Hello {name} from {place}</h1>
+            )
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MyH1 />) 
+        root.render(<MyH2 />)
+            root.render(<MyH1 />) /* No Matter How Many Times You Write root.render -> The Last root.render will replace all the upper ones -> i.e. Code Written in Only Last root.render will be executed -> cuz the lower root.render is replacing the upper root.render -> 2nd root.render -> Replace 1st & Then 3rd root.render replaced 2nd 
+            Because the Rule is -> that only tag will render inside the root
+        */
+       root.render(<Parent />)
+    </script>
+</body>
+</html>

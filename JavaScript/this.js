@@ -70,3 +70,21 @@ obj.square();
 //   user.sayHi(); // Hello, John!
 // }, 1000);
 
+/**************************************** Best Example *************************************************************** */
+
+const obj = {
+  a: 10,
+  method() {
+    let a = 20;
+    console.log(this.a);
+    const other = () => {
+      console.log(this.a);
+    };
+    other();
+  },
+};
+
+obj.method();
+
+// Explaination -> this value inside of an arrow function always equals this value from the outer function. In other words, the arrow function resolves this lexical. So, we see that arrow functions instead of using a=20, it’s look-up to the method function and providing this of the method(). Thus it produces the same result.
+
