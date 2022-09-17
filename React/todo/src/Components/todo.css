@@ -1,0 +1,81 @@
+#root {
+    display: flex;
+    justify-content: center;
+}
+
+.todo {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    justify-content: center;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #DDDDDD;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.delete {
+    width: 8em;
+    height: 2.5em;
+    background-color: lightgreen;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add {
+    padding: 12px 30px 12px 30px;
+    width: 8em;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background: lightcoral;
+    margin-left: .5em;
+    border-radius: 4px;
+}
+
+input {
+    padding: 10px;
+    outline: none;
+}
+
+.entry {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+li>p {
+    width: 70%;
+}
+
+@media only screen and (max-width: 420px) {
+    .delete {
+        height: 3em;
+        width: 9em;
+        color: black;
+    }
+
+    .entry {
+        width: 100%;
+    }
+
+    .add {
+        color: black;
+        width: 9em;
+    }
+}
