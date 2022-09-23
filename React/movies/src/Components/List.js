@@ -11,6 +11,8 @@ export default class List extends Component {
       currPage: 1,
       fav: [],
     };
+
+    this.favouriteMovies = [];
   }
 
   handleEnter = (id) => {
@@ -75,20 +77,38 @@ export default class List extends Component {
     }
   };
 
-  handleFavourites = (id, title) => {
-    //if id is already present then remove it -> else add the id in fav array\
-    if (!this.state.fav.includes(id)) {
-      this.state.fav.push(id);
+  // handleFavourites = (id) => {
+  //   //if id is already present then remove it -> else add the id in fav array\
+  //   if (!this.state.fav.includes(id)) {
+  //     this.state.fav.push(id);
+  //   } else {
+  //     let idx = this.state.fav.indexOf(id);
+  //     this.state.fav.splice(idx, 1);
+  //   }
+
+  //   console.log(this.state.fav);
+  // };
+
+  handleFavourites = (movieObj) => {
+    if (this.favouriteMovies.includes(movieObj.id)) {
+      //if id already present -> remove
+      this.favouriteMovies = this.favouriteMovies.filter(
+        (movie) => movie.id !== movieObj.id
+      );
     } else {
-      let idx = this.state.fav.indexOf(id);
-      this.state.fav.splice(idx, 1);
+      this.favouriteMovies.push(movieObj);
     }
 
-    console.log(this.state.fav);
+    let tempData = this.favouriteMovies.map((movieObj) => movieObj.id);
+
+    this.setState({
+      fav: [...tempData],
+    });
   };
 
   render() {
     //console.log("render is called");
+    console.log(this.favouriteMovies);
     return (
       <>
         {this.state.movies.length == 0 ? (
@@ -126,7 +146,7 @@ export default class List extends Component {
                           <a
                             className="btn btn-danger favourite"
                             href="#"
-                            onClick={() => this.handleFavourites(movieObj.id)}
+                            onClick={() => this.handleFavourites(movieObj)}
                           >
                             Add to Favourites
                           </a>
