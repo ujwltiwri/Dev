@@ -1,3 +1,21 @@
+// Deep Clone Objects Using Recursion
+const deepClone = (obj) => {
+  let clonedObj = Object.assign({}, obj);
+  Object.keys(clonedObj).forEach((key) => {
+    let objType = typeof clonedObj[key];
+
+    if (objType == "object") {
+      clonedObj[key] = deepClone(obj[key]);
+    }
+  });
+  return clonedObj;
+};
+
+let obj2 = deepClone(obj);
+obj2.residence.City = "Chandigarh";
+
+// *********************************************************************
+
 let captainAmerica = {
   firstName: "Steve",
   lastName: "Rogers",
