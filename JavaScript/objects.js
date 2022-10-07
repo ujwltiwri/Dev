@@ -14,7 +14,7 @@ const deepClone = (obj) => {
 let obj2 = deepClone(obj);
 obj2.residence.City = "Chandigarh";
 
-// *********************************************************************
+// **********************************************************************
 
 let captainAmerica = {
   firstName: "Steve",
