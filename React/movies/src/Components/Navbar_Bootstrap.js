@@ -6,7 +6,7 @@ export default class extends Component {
       <div>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
-            <a className="display-6" href="#">
+            <a className="display-6" href="/">
               Movies App
             </a>
             <button
@@ -26,7 +26,7 @@ export default class extends Component {
                 className="navbar-text display-6"
                 style={{ marginRight: "40px" }}
               >
-                Favourites
+                <a href="/favourites">Favourites</a>
               </span>
               <form className="d-flex input-group w-auto">
                 <input

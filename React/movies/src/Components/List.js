@@ -9,10 +9,8 @@ export default class List extends Component {
       hover: "",
       movies: [],
       currPage: 1,
-      fav: [],
+      favourites: JSON.parse(localStorage.getItem("movies")) || [],
     };
-
-    this.favouriteMovies = [];
   }
 
   handleEnter = (id) => {
@@ -28,32 +26,20 @@ export default class List extends Component {
   };
 
   async componentDidMount() {
-    //console.log("CDM Is Called");
-    //Using Fetch
-    // let res = await fetch("https://api.themoviedb.org/3/movie/popular?api_key=f060fa0e9f765c858800f34492b77418&language=en-US&page=1")
-    // let data = await res.json();
-
-    //Using Axios
     let data = await axios.get(
       "https://api.themoviedb.org/3/movie/popular?api_key=f060fa0e9f765c858800f34492b77418&language=en-US&page=1"
     );
-    ////console.log(data.data);
 
     this.setState({
       movies: [...data.data.results],
     });
   }
 
-  // componentDidUpdate = () => {
-  //   //console.log("CDU is Called");
-  // }
-
   async getUpdatedMovies() {
     //console.log("Get Updated Movies is Called");
     let data = await axios.get(
       `https://api.themoviedb.org/3/movie/popular?api_key=f060fa0e9f765c858800f34492b77418&language=en-US&page=${this.state.currPage}`
     );
-    //console.log(data);
     this.setState({
       movies: [...data.data.results],
     });
@@ -77,38 +63,29 @@ export default class List extends Component {
     }
   };
 
-  // handleFavourites = (id) => {
-  //   //if id is already present then remove it -> else add the id in fav array\
-  //   if (!this.state.fav.includes(id)) {
-  //     this.state.fav.push(id);
-  //   } else {
-  //     let idx = this.state.fav.indexOf(id);
-  //     this.state.fav.splice(idx, 1);
-  //   }
-
-  //   console.log(this.state.fav);
-  // };
-
   handleFavourites = (movieObj) => {
-    if (this.favouriteMovies.includes(movieObj.id)) {
-      //if id already present -> remove
-      this.favouriteMovies = this.favouriteMovies.filter(
+    let favouriteMovies = JSON.parse(localStorage.getItem("movies")) || [];
+    if (!this.state.favourites.includes(movieObj.id)) {
+      //add the movie to fav movies array
+      favouriteMovies.push(movieObj);
+    } else {
+      //remove the movie from fav movies array
+      favouriteMovies = favouriteMovies.filter(
         (movie) => movie.id !== movieObj.id
       );
-    } else {
-      this.favouriteMovies.push(movieObj);
     }
 
-    let tempData = this.favouriteMovies.map((movieObj) => movieObj.id);
-
+    localStorage.setItem("movies", JSON.stringify(favouriteMovies));
+    let movieID = favouriteMovies.map((movieObj) => movieObj.id);
     this.setState({
-      fav: [...tempData],
+      favourites: [...movieID],
     });
+
+    console.log(movieID);
   };
 
   render() {
     //console.log("render is called");
-    console.log(this.favouriteMovies);
     return (
       <>
         {this.state.movies.length == 0 ? (
@@ -145,10 +122,13 @@ export default class List extends Component {
                         <div className="button-wrapper">
                           <a
                             className="btn btn-danger favourite"
-                            href="#"
+                            // href="#"
                             onClick={() => this.handleFavourites(movieObj)}
                           >
-                            Add to Favourites
+                            {/* Add to Favourites */}
+                            {this.state.favourites.includes(movieObj.id)
+                              ? `Remove From Favourites`
+                              : `Add to Favourites`}
                           </a>
                         </div>
                       )}
