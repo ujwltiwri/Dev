@@ -1,0 +1,37 @@
+.profile-intro{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+    align-items: center;
+}
+
+.profile-posts{
+    margin-top: 5%;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.profile-posts > video{
+    height: 30rem;
+    width: 15rem;
+    background-color: lightgreen;
+    border: 2px solid black;
+}
+
+@media screen and (max-width: 512px) {
+.profile-posts > video {
+        height: 15rem;
+        width: 40%;
+        background-color: lightgreen;
+        border: 2px solid black;
+    }
+
+    .profile-posts{
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+}

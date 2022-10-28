@@ -1,0 +1,35 @@
+.navbar,
+.Home_container__bCOhY {
+  padding: 0 !important;
+  background-color: white;
+}
+
+.feed-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.videos-container {
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.videos-container::-webkit-scrollbar {
+  display: none;
+}
+
+.post-container {
+  width: 20rem;
+  height: 40rem;
+}
+
+.post-container > * {
+  width: 100%;
+  height: 38rem;
+  background-color: red;
+  color: white;
+  border-radius: 20px;
+  object-fit: contain;
+}

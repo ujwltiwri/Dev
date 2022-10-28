@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100vh;
+}
+
+.signup-card {
+  width: 30rem;
+  height: 31rem;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  /* position: absolute;
+  top: calc((100vh - 40rem) / 2);
+  border-radius: 3px; */
+}
+
+.bottom-card {
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+  width: 30rem;
+  padding: 1rem;
+  border-radius: 3px;
+  /* position: absolute; */
+  /* bottom: 22vh; */
+}
+
+.tnc {
+  color: gray;
+  margin-top: 1rem;
+}
+
+.info {
+  color: gray;
+  margin-bottom: 0.5rem;
+}
+
+@media only screen and (max-width: 512px) {
+  .signup-card {
+    width: 90%;
+    left: calc((100vw - 90vw) / 2);
+  }
+
+  .bottom-card {
+    bottom: 7vh;
+    width: 90vw;
+  }
+}
