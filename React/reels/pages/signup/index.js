@@ -72,7 +72,7 @@ function index() {
               await setDoc(doc(db, "users", userInfo.user.uid), userData);
             })
             .catch((err) => {
-              // console.log(err);
+              console.log(err);
             });
         }
       );

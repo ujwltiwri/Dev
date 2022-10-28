@@ -17,13 +17,12 @@ import { AuthContext } from "../context/auth";
 import { useRouter } from "next/router";
 import { Link } from "@mui/material";
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = ({userData}) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const { logout } = useContext(AuthContext);
   const router = useRouter();
-
   const handleLogout = async () => {
     await logout();
     router.push("/login");
@@ -153,7 +152,7 @@ const ResponsiveAppBar = () => {
             />
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={userData.profilePhoto} />
               </IconButton>
             </Tooltip>
             <Menu
