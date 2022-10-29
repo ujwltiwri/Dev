@@ -17,7 +17,7 @@ import { AuthContext } from "../context/auth";
 import { useRouter } from "next/router";
 import { Link } from "@mui/material";
 
-const ResponsiveAppBar = ({userData}) => {
+const ResponsiveAppBar = ({ userData }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -44,7 +44,7 @@ const ResponsiveAppBar = ({userData}) => {
   };
 
   return (
-    <AppBar position="static" className="navbar">
+    <AppBar position="static" className="navbar" sx={{ bgcolor: "white" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
@@ -152,7 +152,11 @@ const ResponsiveAppBar = ({userData}) => {
             />
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={userData.profilePhoto} />
+                <Avatar
+                  alt="Remy Sharp"
+                  src={userData.profilePhoto}
+                  sx={{ width: 35, height: 35 }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -171,12 +175,7 @@ const ResponsiveAppBar = ({userData}) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))} */}
-              <Link href="/profile">
+              <Link href="/profile" style={{ textDecoration: "none" }}>
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
