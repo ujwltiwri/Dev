@@ -4,8 +4,14 @@ import MovieIcon from "@mui/icons-material/Movie";
 import Stack from "@mui/material/Stack";
 import LinearProgress from "@mui/material/LinearProgress";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { db, storage } from "../Firebase";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { db, storage } from "../firebase";
+import {
+  arrayUnion,
+  doc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Upload({ userData }) {
@@ -84,6 +90,10 @@ export default function Upload({ userData }) {
           };
 
           await setDoc(doc(db, "posts", uid), postData);
+
+          await updateDoc(doc(db, "users", userData.uid), {
+            posts: arrayUnion(uid),
+          });
         });
       }
     );

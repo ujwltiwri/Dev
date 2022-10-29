@@ -7,12 +7,11 @@ import { AuthContext } from "../context/auth";
 import { useRouter } from "next/router";
 export default function Home() {
   const { user } = useContext(AuthContext);
-  console.log("user", user);
   const Redirect = () => {
     const router = useRouter();
     router.push("/login");
   };
-
+  console.log("feed", user);
   return (
     <div className={styles.container}>
       <Head>

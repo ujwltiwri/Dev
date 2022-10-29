@@ -23,14 +23,14 @@
 }
 
 @media screen and (max-width: 512px) {
-.profile-posts > video {
+    .profile-posts > video {
         height: 15rem;
         width: 40%;
         background-color: lightgreen;
         border: 2px solid black;
     }
 
-    .profile-posts{
+    .profile-posts {
         margin-left: 2%;
         margin-right: 2%;
     }

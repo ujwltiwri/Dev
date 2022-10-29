@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "../../assets/Instagram.jpg";
 import TextField from "@mui/material/TextField";
@@ -8,8 +8,9 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { AuthContext } from "../../context/auth";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import { storage, db } from "../../Firebase";
+import { storage, db } from "../../firebase";
 import { Alert, Link } from "@mui/material";
+import { useRouter } from "next/router";
 
 function index() {
   const [email, setEmail] = useState("");
@@ -21,6 +22,12 @@ function index() {
   const [success, setSuccess] = useState("");
 
   const { signup, user } = useContext(AuthContext);
+  const { push } = useRouter();
+  useEffect(() => {
+    if (user) {
+      push("/");
+    }
+  }, [user]);
 
   let handleClick = async () => {
     console.log(email);
@@ -67,6 +74,7 @@ function index() {
                 fullName,
                 profilePhoto: downloadURL,
                 uid: userInfo.user.uid,
+                posts: [],
               };
 
               await setDoc(doc(db, "users", userInfo.user.uid), userData);

@@ -15,7 +15,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ExploreIcon from "@mui/icons-material/Explore";
 import { AuthContext } from "../context/auth";
 import { useRouter } from "next/router";
-import { Link } from "@mui/material";
+import Link from "next/link";
 
 const ResponsiveAppBar = ({ userData }) => {
   const [anchorElNav, setAnchorElNav] = useState(null);

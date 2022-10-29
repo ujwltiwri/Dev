@@ -6,7 +6,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import React, { createContext, useEffect, useState } from "react";
-import { auth } from "../Firebase";
+import { auth } from "../firebase";
 export const AuthContext = createContext();
 
 const AuthWrapper = ({ children }) => {
@@ -23,7 +23,7 @@ const AuthWrapper = ({ children }) => {
       } else {
         // User is signed out
         // ...
-        setUser(""  );
+        setUser("");
       }
     });
     setLoading(false);

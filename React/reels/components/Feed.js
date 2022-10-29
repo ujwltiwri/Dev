@@ -8,8 +8,9 @@ import {
 import { userAgent } from "next/server";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth";
-import { db } from "../Firebase";
+import { db } from "../firebase";
 import Navbar from "./Navbar";
+import Post from "./Post";
 import Upload from "./Upload";
 export default function Feed() {
   const { user } = useContext(AuthContext);
@@ -36,37 +37,15 @@ export default function Feed() {
     );
   }, []);
 
-  console.log(posts);
-
   return (
     <div className="feed-container">
       <Navbar userData={userData} />
       <Upload userData={userData} />
+      {/* <Post postData={posts} /> */}
       <div className="videos-container">
-        <div className="post-container">
-          <video
-            controls
-            src="https://firebasestorage.googleapis.com/v0/b/reels-cc151.appspot.com/o/TjiDPptHBVQcrlseEYNFDDIihtS2%2Fpost%2F095355f7-5a3b-4e35-971b-51189ab394dc?alt=media&token=e1c5d2b0-32a1-469d-adbe-10a30d0b7ab1"
-          />
-        </div>
-        <div className="post-container">
-          <video controls />
-        </div>
-        <div className="post-container">
-          <video controls />
-        </div>
-        <div className="post-container">
-          <video controls />
-        </div>
-        <div className="post-container">
-          <video controls />
-        </div>
-        <div className="post-container">
-          <video controls />
-        </div>
-        <div className="post-container">
-          <video controls />
-        </div>
+        {posts.map((post) => (
+          <Post postData={post} />
+        ))}
       </div>
     </div>
   );
