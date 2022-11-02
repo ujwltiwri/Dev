@@ -18,8 +18,8 @@
 .profile-posts > video{
     height: 30rem;
     width: 15rem;
-    background-color: lightgreen;
-    border: 2px solid black;
+    background-color: black;
+    border-radius: 10px;
 }
 
 @media screen and (max-width: 512px) {

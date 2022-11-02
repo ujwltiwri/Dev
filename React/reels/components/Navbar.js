@@ -154,7 +154,7 @@ const ResponsiveAppBar = ({ userData }) => {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
                   alt="Remy Sharp"
-                  src={userData.profilePhoto}
+                  src={userData?.profilePhoto}
                   sx={{ width: 35, height: 35 }}
                 />
               </IconButton>

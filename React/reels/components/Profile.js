@@ -1,53 +1,3 @@
-// import React, { useContext, useEffect, useState } from "react";
-// import Image from "next/image";
-// import Navbar from "./Navbar";
-// import profilePic from "../assets/avatar.png";
-// import { AuthContext } from "../context/auth";
-// import { doc, onSnapshot } from "firebase/firestore";
-// import { db } from "../firebase";
-// function Profile() {
-//   const { user } = useContext(AuthContext);
-//   const [userData, setUserData] = useState({});
-//   //this component will only be visible when user is logged in
-//   useEffect(() => {
-//     console.log(user);
-//     const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-//       console.log("doc", doc.data());
-//       setUserData(doc.data());
-//     });
-//     return () => unsub();
-//   }, [user]);
-//   return (
-//     <div>
-//       <Navbar userData={userData} />
-//       <div>
-//         <div className="profile-intro">
-//           <div style={{ height: "8rem", width: "8rem" }}>
-//             <Image src={profilePic} />
-//           </div>
-//           <div>
-//             <h1>Ujjwal</h1>
-//             <h1>Posts: 12</h1>
-//           </div>
-//         </div>
-//         <div className="profile-posts">
-//           <video src=""></video>
-//           <video src=""></video>
-//           <video src=""></video>
-//           <video src=""></video>
-//           <video src=""></video>
-//           <video src=""></video>
-//           <video src=""></video>
-//           <video src=""></video>
-//           <video src=""></video>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Profile;
-
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Image from "next/image";
@@ -57,16 +7,33 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 function Profile() {
   const [userData, setUserData] = useState({});
-  const [posts, setPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState([]);
+  const [postIDs, setPostIDs] = useState([]);
   const { user } = useContext(AuthContext);
+
   useEffect(() => {
-    console.log("user", user);
     const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-      console.log("doc", doc.data());
       setUserData(doc.data());
+      setPostIDs(doc.data().posts);
     });
     return () => unsub();
   }, [user]);
+
+  console.log("profile", userData);
+  console.log("post ids", postIDs);
+
+  useEffect(() => {
+    let tempArr = [];
+
+    postIDs.map((postID) => {
+      onSnapshot(doc(db, "posts", postID), (doc) => {
+        tempArr.push(doc.data().postURL);
+        setUserPosts([...tempArr]);
+      });
+    });
+  }, [postIDs]);
+
+  console.log("user posts", userPosts);
   return (
     <div>
       <Navbar userData={userData} />
@@ -91,15 +58,9 @@ function Profile() {
           </div>
         </div>
         <div className="profile-posts">
-          <video src=""></video>
-          <video src=""></video>
-          <video src=""></video>
-          <video src=""></video>
-          <video src=""></video>
-          <video src=""></video>
-          <video src=""></video>
-          <video src=""></video>
-          <video src=""></video>
+          {userPosts.map((post, idx) => (
+            <video src={post} controls key={idx} />
+          ))}
         </div>
       </div>
     </div>

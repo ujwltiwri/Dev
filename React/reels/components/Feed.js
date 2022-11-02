@@ -43,8 +43,8 @@ export default function Feed() {
       <Upload userData={userData} />
       {/* <Post postData={posts} /> */}
       <div className="videos-container">
-        {posts.map((post) => (
-          <Post postData={post} />
+        {posts.map((post, idx) => (
+          <Post postData={post} userData={user} key={idx} />
         ))}
       </div>
     </div>
