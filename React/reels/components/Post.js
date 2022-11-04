@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
+import Comment from "./Comment";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import { Avatar } from "@mui/material";
+import { Avatar, Card, Typography } from "@mui/material";
+import MapsUgcOutlinedIcon from "@mui/icons-material/MapsUgcOutlined";
+import Dialog from "@mui/material/Dialog";
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import DisplayComments from "./DisplayComments";
+
 function Post({ postData, userData }) {
-  const [heart, setHeart] = useState(false);
   const [like, setLike] = useState(false);
 
   useEffect(() => {
@@ -31,6 +34,17 @@ function Post({ postData, userData }) {
     }
   };
 
+  //handle dialog
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className="post-container">
       <video controls src={postData.postURL} preload="none" />
@@ -49,29 +63,94 @@ function Post({ postData, userData }) {
           <div className="heart" onClick={handleLike}>
             {like == false ? (
               <FavoriteBorderOutlinedIcon
-                // fontSize="large"
                 color="disabled"
                 sx={{
-                  fontSize: "35px",
+                  fontSize: "30px",
                   color: "#fff",
                   "&:hover": { color: "#BDBDBD" },
                 }}
               />
             ) : (
               <FavoriteIcon
-                // fontSize="large"
                 sx={{
-                  fontSize: "35px",
+                  fontSize: "30px",
                   color: "red",
                 }}
               />
             )}
           </div>
-          <SendOutlinedIcon
-            // fontSize="large"
-            sx={{ color: "#fff", fontSize: "30px" }}
-          />
           <p style={{ color: "#fff" }}>{postData.likes.length}</p>
+          <MapsUgcOutlinedIcon
+            sx={{
+              fontSize: "30px",
+              color: "white",
+              marginTop: "7px",
+              "&:hover": { color: "#BDBDBD" },
+            }}
+            onClick={handleClickOpen}
+            //Open Dialog When Clicked on Comment Icon
+          />
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            fullWidth
+            maxWidth="md"
+          >
+            <div className="modal-container">
+              <div className="video-modal">
+                <video src={postData.postURL} controls />
+              </div>
+              <div className="comments-modal">
+                <Card sx={{ height: "100%" }}>
+                  <div className="card-1">
+                    <DisplayComments postData={postData} />
+                  </div>
+                  <div
+                    className="card-2"
+                    style={{
+                      borderTop: " 1px solid #EFEFEF",
+                      padding: "10px",
+                    }}
+                  >
+                    {like == false ? (
+                      <FavoriteBorderOutlinedIcon
+                        color="disabled"
+                        sx={{
+                          fontSize: "30px",
+                          color: "#222",
+                          "&:hover": { color: "#BDBDBD" },
+                        }}
+                        onClick={handleLike}
+                      />
+                    ) : (
+                      <FavoriteIcon
+                        sx={{
+                          fontSize: "30px",
+                          color: "red",
+                        }}
+                        onClick={handleLike}
+                      />
+                    )}
+                    <MapsUgcOutlinedIcon
+                      sx={{
+                        fontSize: "30px",
+                        marginLeft: "5px",
+                        "&:hover": { color: "#BDBDBD" },
+                      }}
+                    />
+                    <Typography sx={{ marginBottom: "5px", fontSize: "14px" }}>
+                      {postData.likes.length === 0
+                        ? "Be The First One to Like This Post"
+                        : `Liked By ${postData.likes.length} Users`}
+                    </Typography>
+                    <Comment userData={userData} postData={postData} />
+                  </div>
+                </Card>
+              </div>
+            </div>
+          </Dialog>
         </div>
       </div>
     </div>

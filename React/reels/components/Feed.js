@@ -18,7 +18,6 @@ export default function Feed() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-      // console.log(doc.data());
       setUserData(doc.data());
     });
 
@@ -44,7 +43,7 @@ export default function Feed() {
       {/* <Post postData={posts} /> */}
       <div className="videos-container">
         {posts.map((post, idx) => (
-          <Post postData={post} userData={user} key={idx} />
+          <Post postData={post} userData={userData} key={idx} />
         ))}
       </div>
     </div>
