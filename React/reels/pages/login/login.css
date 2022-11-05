@@ -47,9 +47,20 @@
     width: 100vw;
     padding: 0;
     height: auto;
+    border: none;
   }
 
   .login-top-card {
     width: 100vw;
+  }
+
+  .insta-mob-bg{
+    display: none;
+  }
+
+  .login-bottom-card{
+    width: 90% !important;
+    margin-left: 5%;
+    margin-right: 5%;
   }
 }
