@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import * as ReactDOM from "react-dom";
 import Comment from "./Comment";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -11,6 +12,18 @@ import DisplayComments from "./DisplayComments";
 
 function Post({ postData, userData }) {
   const [like, setLike] = useState(false);
+  //handle dialog
+  const [open, setOpen] = useState(false);
+  const [isMute, setIsMute] = useState(false);
+
+  //handle dialog
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (postData.likes.includes(userData.uid)) {
@@ -34,20 +47,30 @@ function Post({ postData, userData }) {
     }
   };
 
-  //handle dialog
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleMute = () => {
+    if (isMute) {
+      setIsMute(false);
+    } else {
+      setIsMute(true);
+    }
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleNextVideo = (e) => {
+    let nextVideo = ReactDOM.findDOMNode(e.target).parentNode.nextSibling;
+    if (nextVideo) {
+      nextVideo.scrollIntoView({ behaviour: "smooth" });
+    }
   };
 
   return (
     <div className="post-container">
-      <video controls src={postData.postURL} preload="none" />
+      <video
+        src={postData.postURL}
+        muted={isMute}
+        onClick={handleMute}
+        onEnded={handleNextVideo}
+        controls
+      />
       <div className="videos-info">
         <div className="avatar-container">
           <Avatar

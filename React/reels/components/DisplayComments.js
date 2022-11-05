@@ -6,6 +6,7 @@ import { Avatar } from "@mui/material";
 
 function DisplayComments({ postData }) {
   const [allComments, setAllComments] = useState(null);
+
   useEffect(() => {
     let tempArr = [];
     postData.comments.map(async (commentId) => {
@@ -15,6 +16,7 @@ function DisplayComments({ postData }) {
     setAllComments(tempArr);
   }, []);
   console.log("allComments", allComments);
+
   return (
     <div
       className="per-comment"

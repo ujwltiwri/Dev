@@ -5,13 +5,13 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { userAgent } from "next/server";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/auth";
 import { db } from "../firebase";
 import Navbar from "./Navbar";
 import Post from "./Post";
 import Upload from "./Upload";
+
 export default function Feed() {
   const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState({});
@@ -21,7 +21,7 @@ export default function Feed() {
       setUserData(doc.data());
     });
 
-    return () => unsub(); //works like component will mount -> So When u r unmounting then Unsubscribe to the api calls
+    return () => unsub(); //works like component will unmount -> So When u r unmounting then Unsubscribe to the api calls
   }, [user]);
 
   //get posts from db -> works as CDM
@@ -34,13 +34,47 @@ export default function Feed() {
         setPosts([...tempArray]);
       }
     );
+
+    return () => getData();
   }, []);
+
+  //video Intersection Observer
+  const callback = (entries) => {
+    entries.forEach((entry) => {
+      let ele = entry.target.childNodes[0];
+
+      //play the video by default
+      ele.play().then(() => {
+        if (!ele.paused && !entry.isIntersecting) {
+          //if ele -> (video) is not paused and if and if it is not intersecting -> then pause it
+          ele.pause();
+        }
+      });
+    });
+  };
+
+  const options = {
+    threshold: 0.6,
+  };
+
+  let observer = new IntersectionObserver(callback, options);
+
+  useEffect(() => {
+    const elements = document.querySelectorAll(".videos-container");
+    let postContainer = elements[0].childNodes;
+    postContainer.forEach((videoEle) => {
+      observer.observe(videoEle);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [posts]);
 
   return (
     <div className="feed-container">
       <Navbar userData={userData} />
       <Upload userData={userData} />
-      {/* <Post postData={posts} /> */}
       <div className="videos-container">
         {posts.map((post, idx) => (
           <Post postData={post} userData={userData} key={idx} />
