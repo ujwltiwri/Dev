@@ -23,7 +23,7 @@ export default function Feed() {
 
     return () => unsub(); //works like component will unmount -> So When u r unmounting then Unsubscribe to the api calls
   }, [user]);
-
+  // console.log(user)
   //get posts from db -> works as CDM
   useEffect(() => {
     const getData = onSnapshot(
