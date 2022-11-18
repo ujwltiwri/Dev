@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const { db_link } = require("./secrets");
+const mongoose = require("mongoose");
 app.use(express.json());
 
 let user = [
@@ -93,15 +95,65 @@ function getSignup(req, res) {
   res.sendFile("/public/index.html", { root: __dirname });
 }
 
-function postSignup(req, res) {
-  let { email, name, password } = req.body;
-  console.log(req.body);
-  res.json({
-    msg: "user signed up",
-    email,
-    name,
-    password,
-  });
+async function postSignup(req, res) {
+  // let { email, name, password } = req.body;
+  try {
+    let data = req.body;
+    let user = await userModel.create(data);
+    console.log(data);
+    res.json({
+      msg: "user signed up",
+      user,
+    });
+  } catch (err) {
+    res.json({
+      err: err.message,
+    });
+  }
 }
 
 app.listen(5000);
+
+mongoose
+  .connect(db_link)
+  .then(() => {
+    console.log("connected to db");
+  })
+  .catch((err) => console.log(err));
+
+const userSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    minLenght: 6,
+  },
+  confirmPassword: {
+    type: String,
+    required: true,
+    minLenght: 6,
+  },
+});
+
+//models
+const userModel = mongoose.model("userModel", userSchema);
+
+// (async function createUser() {
+//   let user = {
+//     name: "Ranjan",
+//     email: "ranjan@gmail.com",
+//     password: 123456,
+//     confirmPassword: 123456,
+//   };
+
+//   let data = await userModel.create(user);
+//   console.log(data);
+// })();
