@@ -1,26 +1,25 @@
 const express = require("express");
 const app = express();
-const { db_link } = require("./secrets");
-const mongoose = require("mongoose");
+const userModel = require("./models/userModel");
 app.use(express.json());
 
-let user = [
-  {
-    id: 1,
-    name: "Abhishek",
-    age: 100,
-  },
-  {
-    id: 2,
-    name: "Rajat",
-    age: 10,
-  },
-  {
-    id: 3,
-    name: "Sunjyot",
-    age: 50,
-  },
-];
+// let user = [
+//   {
+//     id: 1,
+//     name: "Abhishek",
+//     age: 100,
+//   },
+//   {
+//     id: 2,
+//     name: "Rajat",
+//     age: 10,
+//   },
+//   {
+//     id: 3,
+//     name: "Sunjyot",
+//     age: 50,
+//   },
+// ];
 
 //mounting in express
 const userRouter = express.Router();
@@ -70,9 +69,7 @@ function postUser(req, res) {
 async function updateUser(req, res) {
   console.log(req.body);
   let dataToBeUpdated = req.body;
-  // for (key in dataToBeUpdated) {
-  //   user[key] = dataToBeUpdated[key];
-  // }
+
   let doc = await userModel.findOneAndUpdate(
     { email: "ranjan@gmail.com" },
     dataToBeUpdated
@@ -101,7 +98,6 @@ function getSignup(req, res) {
 }
 
 async function postSignup(req, res) {
-  // let { email, name, password } = req.body;
   try {
     let data = req.body;
     let user = await userModel.create(data);
@@ -118,38 +114,6 @@ async function postSignup(req, res) {
 }
 
 app.listen(5000);
-
-mongoose
-  .connect(db_link)
-  .then(() => {
-    console.log("connected to db");
-  })
-  .catch((err) => console.log(err));
-
-const userSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minLenght: 6,
-  },
-  confirmPassword: {
-    type: String,
-    required: true,
-    minLenght: 6,
-  },
-});
-
-//models
-const userModel = mongoose.model("userModel", userSchema);
 
 // (async function createUser() {
 //   let user = {
