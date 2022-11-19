@@ -19,17 +19,46 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    validate: function () {
+      return emailValidator.validate(this.email);
+    },
   },
   password: {
     type: String,
     required: true,
-    minLenght: 6,
+    minLength: 6,
   },
   confirmPassword: {
     type: String,
     required: true,
-    minLenght: 6,
+    minLength: 6,
+    validate: function () {
+      return this.confirmPassword === this.password;
+    },
   },
+});
+
+//-------------->learning hooks<-----------------
+// userSchema.pre('save', function () {
+//   console.log("before saving in db");
+// })
+
+// userSchema.post("save", function () {
+//   console.log("after saving in db");
+// });
+
+//not saving confirmPassword to db
+userSchema.pre("save", function () {
+  console.log("before saving in db");
+  this.confirmPassword = undefined;
+});
+
+userSchema.pre("save", async function () {
+  let salt = await bcrypt.genSalt();
+  // console.log(salt);
+  let hashedString = await bcrypt.hash(this.password, salt);
+  this.password = hashedString;
+  console.log(hashedString);
 });
 
 //models
