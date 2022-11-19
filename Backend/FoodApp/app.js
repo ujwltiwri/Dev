@@ -32,7 +32,7 @@ userRouter
   .route("/")
   .get(getUser)
   .post(postUser)
-  .patch(patchUser)
+  .patch(updateUser)
   .delete(deleteUser);
 
 userRouter
@@ -67,20 +67,25 @@ function postUser(req, res) {
   });
 }
 
-function patchUser(req, res) {
+async function updateUser(req, res) {
   console.log(req.body);
   let dataToBeUpdated = req.body;
-  for (key in dataToBeUpdated) {
-    user[key] = dataToBeUpdated[key];
-  }
+  // for (key in dataToBeUpdated) {
+  //   user[key] = dataToBeUpdated[key];
+  // }
+  let doc = await userModel.findOneAndUpdate(
+    { email: "ranjan@gmail.com" },
+    dataToBeUpdated
+  );
   res.json({
     message: "data updated succesfully",
     user: req.body,
   });
 }
 
-function deleteUser(req, res) {
-  user = {};
+async function deleteUser(req, res) {
+  let emailId = req.body;
+  let user = await userModel.findOneAndRemove(emailId);
   res.json({
     message: "User Deleted Successfully",
   });
