@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
 const userModel = require("./models/userModel");
+const cookieparser = require("cookie-parser");
 app.use(express.json());
+app.use(cookieparser());
 
 // let user = [
 //   {
@@ -33,6 +35,14 @@ userRouter
   .post(postUser)
   .patch(updateUser)
   .delete(deleteUser);
+
+userRouter
+  .route("/setcookies")
+  .get(setCookies);
+
+userRouter
+  .route("/getcookies")
+  .get(getCookies);
 
 userRouter
   .route("/:name") //params
@@ -111,6 +121,18 @@ async function postSignup(req, res) {
       err: err.message,
     });
   }
+}
+
+function setCookies(req, res) {
+  res.cookie("isLoggedin", false, { maxAge: 10000, secure: true });
+  res.cookie("password", 124325345);
+  res.send("cookies has been set");
+}
+
+function getCookies(req, res) {
+  let cookies = req.cookies;
+  console.log(cookies);
+  res.send("cookies recived");
 }
 
 app.listen(5000);
