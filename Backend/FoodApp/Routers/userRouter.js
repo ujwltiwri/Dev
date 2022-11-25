@@ -4,7 +4,7 @@ const userModel = require("../models/userModel");
 
 userRouter
   .route("/")
-  .get(getUser)
+  .get(protectRoute, getUsers)
   .post(postUser)
   .patch(updateUser)
   .delete(deleteUser);
@@ -17,14 +17,28 @@ userRouter
   .route("/:name") //params
   .get(getUserById);
 
-function getUser(req, res) {
+function protectRoute(req, res, next) {
+  if (req.cookies.isLoggedIn) {
+    console.log("cookies");
+    next();
+  } else {
+    return res.json({
+      msg: "operation not allowed",
+    });
+  }
+}
+
+async function getUsers(req, res) {
   // res.send(user);
   console.log(req.query);
-  let { name, age } = req.query;
-  let filteredData = user.filter((userObj) => {
-    return userObj.name == name && userObj.age == age;
-  });
-  res.send(filteredData);
+  // let { name, age } = req.query;
+  // let filteredData = user.filter((userObj) => {
+  //   return userObj.name == name && userObj.age == age;
+  // });
+  // res.send(filteredData);
+
+  let allUsers = await userModel.find();
+  res.json({ msg: "users retrived", allUsers });
 }
 
 function postUser(req, res) {
@@ -65,7 +79,7 @@ function getUserById(req, res) {
 }
 
 function setCookies(req, res) {
-  res.cookie("isLoggedin", false, { maxAge: 10000, secure: true });
+  res.cookie("isLogged", false, { maxAge: 10000, secure: true });
   res.cookie("password", 124325345);
   res.send("cookies has been set");
 }
