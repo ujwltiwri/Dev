@@ -1,7 +1,9 @@
 const express = require("express");
 const userRouter = express.Router();
 const userModel = require("../models/userModel");
-
+var jwt = require("jsonwebtoken");
+const { jwt_key } = require("../secrets");
+// const jwt_key = "fhsdjfhg45hj"
 userRouter
   .route("/")
   .get(protectRoute, getUsers)
@@ -18,9 +20,16 @@ userRouter
   .get(getUserById);
 
 function protectRoute(req, res, next) {
-  if (req.cookies.isLoggedIn) {
-    console.log("cookies");
-    next();
+  if (req.cookies.login) {
+    let token = req.cookies.login;
+    let isVerified = jwt.verify(token, jwt_key);
+    if (isVerified) {
+      next();
+    } else {
+      res.json({
+        msg: "user not verified",
+      });
+    }
   } else {
     return res.json({
       msg: "operation not allowed",

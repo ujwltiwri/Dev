@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const db_link = require("../secrets");
+const { db_link } = require("../secrets");
+// console.log(typeof db_link);
 const emailValidator = require("email-validator");
 const bcrypt = require("bcrypt");
 

@@ -1,6 +1,9 @@
 const express = require("express");
 const authRouter = express.Router();
 const userModel = require("../models/userModel");
+var jwt = require("jsonwebtoken");
+// const jwt_key = "fhsdjfhg45hj";
+const { jwt_key } = require("../secrets");
 
 authRouter.route("/signup").get(getSignup).post(postSignup);
 
@@ -34,7 +37,10 @@ async function loginUser(req, res) {
     if (user) {
       //check if password matches
       if (password == user.password) {
-        res.cookie("isLoggedIn", true);
+        let uid = user["_id"];
+        var token = jwt.sign({ paylod: uid }, jwt_key);
+        res.cookie("login", token);
+
         res.json({
           msg: "user logged in",
         });
