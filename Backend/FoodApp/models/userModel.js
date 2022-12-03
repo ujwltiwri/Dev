@@ -3,6 +3,7 @@ const { db_link } = require("../secrets");
 // console.log(typeof db_link);
 const emailValidator = require("email-validator");
 const bcrypt = require("bcrypt");
+const uuidv4 = require("uuid");
 
 mongoose
   .connect(db_link)
@@ -53,6 +54,18 @@ userSchema.pre("save", function () {
   console.log("before saving in db");
   this.confirmPassword = undefined;
 });
+
+userSchema.methods.createResetToken = function () {
+  const resetToken = uuidv4();
+  this.resetToken = resetToken;
+  return resetToken;
+};
+
+userSchema.methods.resetPasswordHandler = function (password, confirmPassword) {
+  this.password = password;
+  this.confirmPassword = confirmPassword;
+  this.resetToken = undefined;
+};
 
 userSchema.pre("save", async function () {
   let salt = await bcrypt.genSalt();
