@@ -61,6 +61,7 @@ userSchema.methods.createResetToken = function () {
   return resetToken;
 };
 
+//resetPasswordHandler;
 userSchema.methods.resetPasswordHandler = function (password, confirmPassword) {
   this.password = password;
   this.confirmPassword = confirmPassword;
