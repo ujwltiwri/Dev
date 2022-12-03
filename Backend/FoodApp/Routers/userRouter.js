@@ -1,15 +1,51 @@
 const express = require("express");
 const userRouter = express.Router();
-const userModel = require("../models/userModel");
-var jwt = require("jsonwebtoken");
-const { jwt_key } = require("../secrets");
+// const userModel = require("../models/userModel");
+// var jwt = require("jsonwebtoken");
+// const { jwt_key } = require("../secrets");
 // const jwt_key = "fhsdjfhg45hj"
-userRouter
-  .route("/")
-  .get(protectRoute, getUsers)
-  .post(postUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+const {
+  getUser,
+  updateUser,
+  deleteUser,
+  allUser,
+} = require("../controller/useController");
+
+const {
+  signup,
+  login,
+  forgetPassword,
+  resetPassword,
+  logout,
+} = require("../controller/authController");
+
+//user ke options
+userRouter.route("/:id").patch(updateUser).delete(deleteUser);
+
+userRouter.route("/login").post(login);
+
+userRouter.route("/signup").post(signup);
+
+userRouter.route("/forgetpassword").post(forgetPassword);
+
+userRouter.route("/resetpassword/:token").post(resetPassword);
+
+userRouter.route("/logout").get(logout);
+
+//profile page
+userRouter.use(protectRoute);
+
+userRouter.route("/profile").get(getUser);
+
+//admin specific function
+userRouter.use(isAuthorised(["admin"]));
+userRouter.route("/").get(allUser);
+
+module.exports = userRouter;
+
+userRouter.route("/").get(protectRoute, getUsers).post(postUser);
+// .patch(updateUser)
+// .delete(deleteUser);
 
 userRouter.route("/setcookies").get(setCookies);
 
