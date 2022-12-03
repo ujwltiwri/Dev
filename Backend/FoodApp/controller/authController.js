@@ -3,6 +3,7 @@ var jwt = require("jsonwebtoken");
 const { JWT_KEY } = require("../secrets");
 const { compare } = require("bcrypt");
 
+//based on MVC Architecture
 module.exports.signup = async function (req, res) {
   try {
     let data = req.body;
