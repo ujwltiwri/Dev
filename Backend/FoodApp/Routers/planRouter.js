@@ -31,3 +31,5 @@ planRouter
     .route('/crud/:id')
     .patch(updatePlan)
     .delete(deletePlan)
+
+module.exports = planRouter;
