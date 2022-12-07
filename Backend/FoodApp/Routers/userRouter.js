@@ -9,7 +9,9 @@ const {
   updateUser,
   deleteUser,
   allUser,
-} = require("../controller/useController");
+} = require("../controller/userController");
+
+const { isAuthorised, protectRoute } = require("../helper");
 
 const {
   signup,
@@ -18,24 +20,39 @@ const {
   resetPassword,
   logout,
 } = require("../controller/authController");
-const { isAuthorised, protectRoute } = require("../helper");
+
 //user ke options
-userRouter.route("/:id").patch(updateUser).delete(deleteUser);
+userRouter
+  .route("/:id")
+  .patch(updateUser)
+  .delete(deleteUser);
 
-userRouter.route("/login").post(login);
+userRouter
+  .route("/login")
+  .post(login);
 
-userRouter.route("/signup").post(signup);
+userRouter
+  .route("/signup")
+  .post(signup);
 
-userRouter.route("/forgetpassword").post(forgetPassword);
+userRouter
+  .route("/forgetpassword")
+  .post(forgetPassword);
 
-userRouter.route("/resetpassword/:token").post(resetPassword);
+userRouter
+  .route("/resetpassword/:token")
+  .post(resetPassword);
 
-userRouter.route("/logout").get(logout);
+userRouter
+  .route("/logout")
+  .get(logout);
 
 //profile page
 userRouter.use(protectRoute);
 
-userRouter.route("/profile").get(getUser);
+userRouter
+  .route("/profile")
+  .get(getUser);
 
 //admin specific function
 userRouter.use(isAuthorised(["admin"]));
