@@ -11,7 +11,9 @@ const Bat = (
       <button type="" onClick={props.buyBat}>
         Buy Bat
       </button>
-      <br /><br /><br />
+      <br />
+      <br />
+      <br />
       <button type="" onClick={props.sellBat}>
         Sell Bat
       </button>
